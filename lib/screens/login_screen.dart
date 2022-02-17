@@ -29,8 +29,18 @@ class LoginScreen extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            Image.asset(
+              'assets/images/streetscenelogo.jpg',
+              width: 300,
+              height: 150,
+              color: Colors.grey,
+              colorBlendMode: BlendMode.darken,
+            ),
+            SizedBox(
+              height: 180,
+            ),
             Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: const EdgeInsets.all(15.0),
               child: TextField(
                 controller: emailController,
                 decoration: const InputDecoration(
@@ -45,7 +55,7 @@ class LoginScreen extends StatelessWidget {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.all(10.0),
+              padding: const EdgeInsets.all(15.0),
               child: TextField(
                 controller: passwordController,
                 decoration: InputDecoration(
@@ -61,6 +71,7 @@ class LoginScreen extends StatelessWidget {
               onPressed: () {
                 authService.signWithEmailAndPassword(
                     emailController.text, passwordController.text);
+                Navigator.pushNamed(context, '/');
               },
               child: Text('Login'),
             ),
