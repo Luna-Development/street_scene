@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:street_scene/models/car_model.dart';
 import 'package:street_scene/models/utils.dart';
-import 'package:vertical_card_pager/vertical_card_pager.dart';
+import 'package:street_scene/screens/selectedcard.dart';
 
 class HomeScreen extends StatelessWidget {
   List<ShowCars> showcars = Utils.getShowCars();
@@ -31,34 +31,66 @@ class HomeScreen extends StatelessWidget {
               child: ListView.builder(
                 itemCount: showcars.length,
                 itemBuilder: (BuildContext ctx, int index) {
-                  return Container(
-                    margin: EdgeInsets.all(20),
-                    height: 150,
-                    child: Stack(
-                      children: [
-                        Positioned.fill(
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(20),
-                            child: Image.asset(
-                              'assets/images/' +
-                                  showcars[index].imgName +
-                                  '.jpg',
-                              fit: BoxFit.cover,
-                            ),
+                  return GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => SelectedCard(
+                            showCars: this.showcars[index],
                           ),
                         ),
-                        Row(
-                          children: [
-                            Text(
-                              showcars[index].name,
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 25,
+                      );
+                    },
+                    child: Container(
+                      margin: EdgeInsets.all(20),
+                      height: 150,
+                      child: Stack(
+                        children: [
+                          Positioned.fill(
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(20),
+                              child: Image.asset(
+                                'assets/images/' +
+                                    showcars[index].imgName +
+                                    '.jpg',
+                                fit: BoxFit.cover,
                               ),
-                            )
-                          ],
-                        )
-                      ],
+                            ),
+                          ),
+                          Positioned(
+                            bottom: 0,
+                            left: 0,
+                            right: 0,
+                            child: Container(
+                              height: 120,
+                              decoration: BoxDecoration(
+                                gradient: LinearGradient(
+                                    begin: Alignment.bottomCenter,
+                                    end: Alignment.topCenter,
+                                    colors: [
+                                      Colors.black.withOpacity(0.7),
+                                      Colors.transparent
+                                    ]),
+                              ),
+                            ),
+                          ),
+                          Positioned(
+                            bottom: 0,
+                            child: Row(
+                              children: [
+                                Text(
+                                  showcars[index].name,
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 25,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          )
+                        ],
+                      ),
                     ),
                   );
                 },
@@ -67,114 +99,6 @@ class HomeScreen extends StatelessWidget {
           ],
         ),
       ),
-
-      // appBar: AppBar(
-      //   title: Text(
-      //     'Home',
-      //     style: TextStyle(color: Colors.white),
-      //   ),
-      //   backgroundColor: Colors.black,
-      // ),
-      // body: Container(
-      //   decoration: const BoxDecoration(
-      //     image: DecorationImage(
-      //         fit: BoxFit.fill,
-      //         image: NetworkImage(
-      //             'https://images.fineartamerica.com/images/artworkimages/mediumlarge/2/tokyo-lights-armand-michel.jpg'),
-      //         opacity: 0.8),
-      //   ),
-      //   child: Column(
-      //     children: [
-      //       Expanded(
-      //         child: ListView(
-      //           children: [
-      //             Container(
-      //               margin: const EdgeInsets.all(10),
-      //               height: 200,
-      //               padding: const EdgeInsets.all(20),
-      //               child: Container(
-      //                 decoration: const BoxDecoration(
-      //                   image: DecorationImage(
-      //                     fit: BoxFit.cover,
-      //                     image: NetworkImage(
-      //                         'https://miro.medium.com/max/1200/1*7H3hVeIz5U1Y0ri-JtptRA.jpeg'),
-      //                   ),
-      //                   color: Colors.black,
-      //                   borderRadius: BorderRadius.all(
-      //                     Radius.circular(20),
-      //                   ),
-      //                 ),
-      //                 child: Text('MEOW MEOW'),
-      //               ),
-      //             ),
-      //             Container(
-      //               margin: const EdgeInsets.all(10),
-      //               height: 200,
-      //               padding: const EdgeInsets.all(20),
-      //               child: Container(
-      //                 decoration: const BoxDecoration(
-      //                   image: DecorationImage(
-      //                     fit: BoxFit.cover,
-      //                     image: NetworkImage(
-      //                         'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSEpfoTEcoPPP2IWTJ9oX_shpTcszxokI3gMQ&usqp=CAU'),
-      //                   ),
-      //                   color: Colors.black,
-      //                   borderRadius: BorderRadius.all(
-      //                     Radius.circular(20),
-      //                   ),
-      //                 ),
-      //               ),
-      //             ),
-      //             Container(
-      //               margin: const EdgeInsets.all(10),
-      //               height: 200,
-      //               padding: const EdgeInsets.all(20),
-      //               child: Container(
-      //                 decoration: const BoxDecoration(
-      //                   image: DecorationImage(
-      //                     fit: BoxFit.cover,
-      //                     image: NetworkImage(
-      //                         'https://cdna1.zoeysite.com/Adzpo594RQGDpLcjBynL1z/cache=expiry:31536000//auto_image/compress/https://s3.amazonaws.com/zcom-media/sites/a0iE000000GDpYmIAL/media/catalog/product/s/t/streetfighterla_bmw_e90_widebody_kit_dsg_performance_3.jpg'),
-      //                   ),
-      //                   color: Colors.black,
-      //                   borderRadius: BorderRadius.all(
-      //                     Radius.circular(20),
-      //                   ),
-      //                 ),
-      //               ),
-      //             ),
-      //             Container(
-      //               margin: const EdgeInsets.all(10),
-      //               height: 200,
-      //               padding: const EdgeInsets.all(20),
-      //               child: Container(
-      //                 decoration: const BoxDecoration(
-      //                   image: DecorationImage(
-      //                     fit: BoxFit.cover,
-      //                     image: NetworkImage(
-      //                         'https://www.tuningblog.eu/wp-content/uploads/2021/12/Toyota-Supra-Mk3-JZA70-VIP-Tuning-26.jpg'),
-      //                   ),
-      //                   color: Colors.black,
-      //                   borderRadius: BorderRadius.all(
-      //                     Radius.circular(20),
-      //                   ),
-      //                 ),
-      //               ),
-      //             ),
-      //           ],
-      //         ),
-      //       ),
-      //       Center(
-      //         child: ElevatedButton(
-      //           child: Text('Logout'),
-      //           onPressed: () {
-      //             Navigator.pushNamed(context, '/login');
-      //           },
-      //         ),
-      //       )
-      //     ],
-      //   ),
-      // ),
     );
   }
 }
