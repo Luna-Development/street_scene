@@ -10,4 +10,8 @@ class ShowCars {
     required this.model,
     required this.imgName,
   });
+  ShowCars.fromJson(Map<String, dynamic> json)
+      : name = json['name'],
+        model = json['engine'],
+        imgName = json['image'];
 }

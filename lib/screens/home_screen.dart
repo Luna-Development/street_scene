@@ -1,12 +1,52 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:street_scene/models/car_model.dart';
 import 'package:street_scene/models/utils.dart';
 import 'package:street_scene/screens/selectedcard.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
+  HomeScreen({Key? key}) : super(key: key);
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
   List<ShowCars> showcars = Utils.getShowCars();
 
-  HomeScreen({Key? key}) : super(key: key);
+  Future getCloudFirestoreUsers() async {
+    print("getCloudFirestore");
+
+    //assumes you have a collection called "users"
+    FirebaseFirestore.instance.collection("users").get().then((querySnapshot) {
+      print(querySnapshot.docs.length);
+
+      List<ShowCars> allCars = [];
+
+      querySnapshot.docs.forEach((value) {
+        var carData = value.data();
+
+        print(carData);
+        var car = ShowCars.fromJson(carData);
+        // ShowCars car = ShowCars(
+        //     name: carData['name'],
+        //     model: carData['engine'],
+        //     imgName: carData['image']);
+
+        allCars.add(car);
+      });
+      setState(() {
+        showcars = allCars;
+      });
+    }).catchError((onError) {
+      print(onError);
+    });
+  }
+
+  void initState() {
+    super.initState();
+    getCloudFirestoreUsers();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +77,7 @@ class HomeScreen extends StatelessWidget {
                         context,
                         MaterialPageRoute(
                           builder: (context) => SelectedCard(
-                            showCars: this.showcars[index],
+                            showCars: showcars[index],
                           ),
                         ),
                       );
@@ -48,16 +88,47 @@ class HomeScreen extends StatelessWidget {
                       child: Stack(
                         children: [
                           Positioned.fill(
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(20),
-                              child: Image.asset(
-                                'assets/images/' +
-                                    showcars[index].imgName +
-                                    '.jpg',
-                                fit: BoxFit.cover,
-                              ),
+                              child: ClipRRect(
+                            borderRadius: BorderRadius.circular(20),
+
+                            // ignore: avoid_print
+
+                            // child: FutureBuilder<List<String>>(
+                            //   future: getData(),
+                            //   builder: (context, snapshot) {
+                            //     List<String> carList =
+                            //         snapshot.data ?? [];
+                            //     if (snapshot.hasError)
+                            //       print(snapshot.error);
+                            //     return snapshot.hasData
+                            //         ? ListView.builder(
+                            //             itemCount: carList.length,
+                            //             itemBuilder:
+                            //                 (BuildContext context,
+                            //                     int index) {
+                            //               return ListTile(
+                            //                 title: Text(carList[index]),
+                            //               );
+                            //             },
+                            //           )
+                            //         : Center(
+                            //             child:
+                            //                 CircularProgressIndicator(),
+                            //           );
+                            //   },
+                            // )
+                            child: Image.asset(
+                              'assets/images/rx7.jpg',
+                              fit: BoxFit.cover,
                             ),
-                          ),
+
+                            // child: Image.asset(
+                            //   'assets/images/' +
+                            //       showcars[index].imgName +
+                            //       '.jpg',
+                            //   fit: BoxFit.cover,
+                            // ),
+                          )),
                           Positioned(
                             bottom: 0,
                             left: 0,
